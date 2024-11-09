@@ -26,15 +26,18 @@ router.get('/', authenticateToken, async (req, res) => {
 
     // Decrypt each password before sending it back to the client
     const decryptedPasswords = passwords.map(password => ({
+      _id: password._id, // Include the _id field
       name: password.name,
       password: CryptoJS.AES.decrypt(password.encryptedPassword, secretKey).toString(CryptoJS.enc.Utf8)
     }));
+
     res.json(decryptedPasswords);
   } catch (error) {
     console.error('Error fetching passwords:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 // Route to add a new password
 router.post('/add', authenticateToken, async (req, res) => {
@@ -51,6 +54,23 @@ router.post('/add', authenticateToken, async (req, res) => {
     res.json({ message: 'Password saved successfully' });
   } catch (error) {
     console.error('Error saving password:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.delete('/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: 'Password ID is required' });
+    }
+    const deletedPassword = await Password.findOneAndDelete({ _id: id, userId: req.user.userId });
+    if (!deletedPassword) {
+      return res.status(404).json({ message: 'Password not found' });
+    }
+    res.json({ message: 'Password deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting password:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

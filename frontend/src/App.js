@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import PasswordManager from './components/PasswordManager';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const App = () => {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));

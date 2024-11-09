@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../styles/PasswordManager.css';
 
 const PasswordManager = () => {
   const [passwords, setPasswords] = useState([]);
@@ -11,11 +12,15 @@ const PasswordManager = () => {
       const response = await axios.get('/api/passwords', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
-      setPasswords(response.data);
+      setPasswords(response.data.map(password => ({
+        ...password,
+        _id: password._id || password.id // Ensures _id is used consistently
+      })));
     } catch (error) {
       console.error('Error fetching passwords:', error);
     }
   };
+  
 
   const addPassword = async () => {
     try {
@@ -31,6 +36,20 @@ const PasswordManager = () => {
     }
   };
 
+  const deletePassword = async (id) => {
+    console.log("Deleting password with ID:", id); // Check if ID is being passed correctly
+    try {
+      console.log(id);
+      await axios.delete(`/api/passwords/${id}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      fetchPasswords(); // Refresh the password list after deletion
+    } catch (error) {
+      console.error('Error deleting password:', error);
+    }
+  };
+  
+
   useEffect(() => {
     if (authToken) {
       fetchPasswords(); // Fetch passwords only if authToken is available
@@ -38,7 +57,7 @@ const PasswordManager = () => {
   }, [authToken]);
 
   return (
-    <div>
+    <div className="password-manager">
       <h2>Password Manager</h2>
       <form
         onSubmit={(e) => {
@@ -62,14 +81,32 @@ const PasswordManager = () => {
         />
         <button type="submit">Add Password</button>
       </form>
+
       <h3>Stored Passwords</h3>
-      <ul>
-        {passwords.map((pw, index) => (
-          <li key={index}>
-            {pw.name}: {pw.password}
-          </li>
-        ))}
-      </ul>
+      <table className="password-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {passwords.map((pw, index) => (
+            <tr key={index}>
+              <td>{pw.name}</td>
+              <td>{pw.password}</td>
+              <td>
+                <i
+                  className="fas fa-trash delete-icon"
+                  onClick={() => deletePassword(pw._id)}
+                  title="Delete Password"
+                ></i>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
