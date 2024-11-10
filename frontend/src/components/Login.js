@@ -34,7 +34,7 @@ const Login = ({ setAuthToken }) => {
     <div className="login-form">
       <h2>{isSignup ? 'Sign Up' : 'Login'}</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className='formdiv'>
           <label>Email:</label>
           <input
             type="email"
@@ -43,7 +43,7 @@ const Login = ({ setAuthToken }) => {
             required
           />
         </div>
-        <div>
+        <div className='formdiv'>
           <label>Password:</label>
           <input
             type="password"
