@@ -16,13 +16,14 @@ const Login = ({ setAuthToken }) => {
 
     try {
       const endpoint = isSignup ? '/api/signup' : '/api/login';
+      console.log('req sent');
       const response = await axios.post(endpoint, { email, password });
+      console.log('response recieved');
       const { token } = response.data;
 
       // Save token in localStorage and update state
       localStorage.setItem('authToken', token);
       setAuthToken(token); // Pass the token up to the parent component
-
       // Navigate to the PasswordManager page
       navigate('/passwords');
     } catch (err) {
