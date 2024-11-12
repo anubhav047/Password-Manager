@@ -5,12 +5,12 @@ const passwordRoutes = require('./routes/passwords');
 const authRoutes = require('./routes/auth');
 const cors = require('cors');
 
-app.use(cors());
 dotenv.config();
 connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/passwords', passwordRoutes);
 app.use('/api', authRoutes);
