@@ -10,6 +10,8 @@
   background-color: #000000; /* Dark background */
   font-family: 'Montserrat', sans-serif; /* Matching the Secorg font family */
   color: #ffffff; /* Light text for contrast */
+  padding: 1rem; /* Padding for small screens */
+  box-sizing: border-box;
 }
 
 .login-form h2 {
@@ -50,7 +52,6 @@
   outline: none;
   box-shadow: 0 0 8px rgba(74, 144, 226, 0.6); /* Blue glow on focus */
 }
-
 
 .login-form form {
   display: flex;
@@ -122,5 +123,51 @@
   padding: 9px;
 }
 
+/* Media Queries for Responsiveness */
 
+/* Small screens (mobile) */
+@media (max-width: 600px) {
+  .login-form h2 {
+    font-size: 2rem; /* Reduce the size of the heading */
+  }
 
+  .login-form form {
+    padding: 1.5rem; /* Reduce the padding for the form */
+    border-radius: 10px; /* Smaller rounding on smaller screens */
+  }
+
+  .formdiv input {
+    padding: 0.8rem; /* Reduce input padding */
+    font-size: 0.9rem; /* Smaller text for input fields */
+  }
+
+  .login-form button {
+    padding: 0.8rem; /* Reduce padding for the button */
+    font-size: 0.9rem; /* Reduce button text size */
+  }
+
+  .toggle-button {
+    font-size: 0.8rem; /* Reduce font size for toggle button */
+    padding: 0.5rem; /* Reduce padding */
+  }
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 1024px) {
+  .login-form form {
+    padding: 2rem; /* Slightly reduce padding */
+  }
+
+  .login-form h2 {
+    font-size: 2.2rem; /* Slightly reduce heading size */
+  }
+
+  .formdiv input {
+    padding: 1rem; /* Keep padding but ensure adaptability */
+    font-size: 1rem; /* Maintain standard size for medium screens */
+  }
+
+  .login-form button {
+    padding: 1rem; /* Slightly increase padding for medium screens */
+  }
+}
