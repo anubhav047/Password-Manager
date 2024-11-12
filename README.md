@@ -1,4 +1,4 @@
-# SecurePass - Password Manager
+# Password Manager
 
 SecurePass is a secure and reliable password management web application built with the MERN stack (MongoDB, Express, React, Node.js). It allows you to store and manage your passwords in an encrypted format, ensuring easy access and strong security for all your accounts.
 
