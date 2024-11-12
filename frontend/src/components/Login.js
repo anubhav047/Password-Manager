@@ -9,6 +9,7 @@ const Login = ({ setAuthToken }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Initialize navigate function
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const Login = ({ setAuthToken }) => {
     try {
       const endpoint = isSignup ? '/api/signup' : '/api/login';
       console.log('req sent');
-      const response = await axios.post(endpoint, { email, password });
+      const response = await axios.post(`${API_BASE_URL}${endpoint}`, { email, password });
       console.log('response recieved');
       const { token } = response.data;
 

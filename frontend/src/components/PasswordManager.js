@@ -6,10 +6,11 @@ const PasswordManager = () => {
   const [passwords, setPasswords] = useState([]);
   const [newPassword, setNewPassword] = useState({ name: '', password: '' });
   const authToken = localStorage.getItem('authToken'); // Retrieve authToken directly from localStorage
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const fetchPasswords = async () => {
     try {
-      const response = await axios.get('/api/passwords', {
+      const response = await axios.get(`${API_BASE_URL}/api/passwords`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       setPasswords(response.data.map(password => ({
@@ -25,7 +26,7 @@ const PasswordManager = () => {
   const addPassword = async () => {
     try {
       await axios.post(
-        '/api/passwords/add',
+        `${API_BASE_URL}/api/passwords/add`,
         { ...newPassword },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
@@ -40,7 +41,7 @@ const PasswordManager = () => {
     console.log("Deleting password with ID:", id); // Check if ID is being passed correctly
     try {
       console.log(id);
-      await axios.delete(`/api/passwords/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/passwords/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       fetchPasswords(); // Refresh the password list after deletion
