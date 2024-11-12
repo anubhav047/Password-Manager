@@ -21,7 +21,6 @@ const PasswordManager = () => {
       console.error('Error fetching passwords:', error);
     }
   };
-  
 
   const addPassword = async () => {
     try {
@@ -38,9 +37,7 @@ const PasswordManager = () => {
   };
 
   const deletePassword = async (id) => {
-    console.log("Deleting password with ID:", id); // Check if ID is being passed correctly
     try {
-      console.log(id);
       await axios.delete(`${API_BASE_URL}/api/passwords/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
@@ -49,7 +46,11 @@ const PasswordManager = () => {
       console.error('Error deleting password:', error);
     }
   };
-  
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Remove token from local storage
+    window.location.href = '/'; // Redirect to the login page
+  };
 
   useEffect(() => {
     if (authToken) {
@@ -59,7 +60,12 @@ const PasswordManager = () => {
 
   return (
     <div className="password-manager">
-      <h2>Password Manager</h2>
+      <div className="header">
+        <h2>Password Manager</h2>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
